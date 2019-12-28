@@ -1,7 +1,7 @@
 package pl.kkurczewski.algorithm;
 
 import org.junit.Test;
-import pl.kkurczewski.algorithm.util.FailFastGrid;
+import pl.kkurczewski.grid.FailFastGrid;
 import pl.kkurczewski.solver.Algorithm;
 
 public abstract class AlgorithmSmokeTest {

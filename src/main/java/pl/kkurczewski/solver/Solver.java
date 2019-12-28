@@ -10,42 +10,55 @@ public class Solver {
     private final int[][] clues;
     private final int maxFloor;
 
-    public Solver(int[] clues) {
+    public Solver(Grid grid, int[] clues) {
         this.maxFloor = (int) Math.sqrt(clues.length);
-        this.grid = new Grid(maxFloor);
+        this.grid = grid;
         this.clues = new int[maxFloor][maxFloor];
         for (int i = 0; i < maxFloor; i++) {
             System.arraycopy(clues, i * maxFloor, this.clues[i], 0, maxFloor);
         }
     }
 
-    public void solve(List<Algorithm> algorithms) {
-        algorithms.forEach(algorithm -> algorithm.solve(grid, clues));
-    }
+    public int[][] solve(List<Algorithm> algorithms) {
+        algorithms.forEach(algorithm -> {
+            algorithm.solve(grid, clues);
+            System.out.println(this.toString());
+        });
 
-    public int[][] solution() {
         return grid.solution();
     }
 
-    public void printGrid() {
-        grid.print();
-    }
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
 
-    public void printClues() {
-        System.out.print(" ");
+        // print top clues
+        builder.append(" |");
         for (int i = 0; i < maxFloor; i++) {
-            System.out.print(clues[0][i]);
+            builder.append(clues[0][i]);
         }
-        System.out.println("");
+        builder.append("| ").append(System.lineSeparator())
+                .append("-+----+-").append(System.lineSeparator());
+
+        // print solution and sides clues
+        final int[][] solution = grid.solution();
         for (int i = 0; i < maxFloor; i++) {
-            System.out.print(clues[3][maxFloor - i - 1]);
-            System.out.print("    ");
-            System.out.println(clues[1][i]);
+            builder.append(clues[3][maxFloor - i - 1]).append("|");
+            for (int j = 0; j < maxFloor; j++) {
+                final int value = solution[i][j];
+                builder.append(value == 0 ? "?" : value);
+            }
+            builder.append("|").append(clues[1][i]);
+            builder.append(System.lineSeparator());
         }
-        System.out.print(" ");
+
+        // print bottom clues
+        builder.append("-+----+-").append(System.lineSeparator()).append(" |");
         for (int i = 0; i < maxFloor; i++) {
-            System.out.print(clues[2][maxFloor - i - 1]);
+            builder.append(clues[2][maxFloor - i - 1]);
         }
-        System.out.print("\n\n");
+        builder.append("| ").append(System.lineSeparator());
+
+        return builder.toString();
     }
 }

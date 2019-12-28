@@ -1,6 +1,7 @@
 package pl.kkurczewski.algorithm.util;
 
 import org.junit.Test;
+import pl.kkurczewski.algorithm.util.RotatingCoord;
 
 import static org.junit.Assert.assertEquals;
 

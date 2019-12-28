@@ -1,8 +1,11 @@
 package pl.kkurczewski;
 
 import pl.kkurczewski.algorithm.SolvingPattern;
+import pl.kkurczewski.grid.Grid;
+import pl.kkurczewski.grid.LoggingGridMarker;
 import pl.kkurczewski.solver.Solver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static pl.kkurczewski.algorithm.NamedAlgorithm.named;
@@ -10,11 +13,12 @@ import static pl.kkurczewski.algorithm.NamedAlgorithm.named;
 public class SkyScrapers {
 
     static int[][] solvePuzzle(int[] clues) {
+        int maxFloor = (int) Math.sqrt(clues.length);
+        List<String> log = new ArrayList<>();
+        LoggingGridMarker loggingGrid = new LoggingGridMarker(new Grid(maxFloor), log::add);
+        Solver solver = new Solver(loggingGrid, clues);
 
-        Solver solver = new Solver(clues);
-        solver.printClues();
-
-        solver.solve(List.of(
+        int[][] solution = solver.solve(List.of(
                 // core
                 named("1", new SolvingPattern(1, List.of(0, 0, 0, 0), List.of(4, 0, 0, 0))),
                 named("2", new SolvingPattern(3, List.of(0, 0, 0, 0), List.of(-4, -4, 0, 0))),
@@ -36,11 +40,12 @@ public class SkyScrapers {
                 named("16", new SolvingPattern(3, List.of(0, 0, 0, 2), List.of(1, 3, 4, 0))),
                 named("17", new SolvingPattern(3, List.of(0, 0, 2, 0), List.of(1, 3, 0, 4))),
                 named("18", new SolvingPattern(3, List.of(0, 2, 0, 0), List.of(1, 0, 4, 3)))
-                ));
+        ));
 
-        solver.printClues();
-        solver.printGrid();
+        System.out.println(solver.toString());
 
-        return solver.solution();
+        log.forEach(System.out::println);
+
+        return solution;
     }
 }

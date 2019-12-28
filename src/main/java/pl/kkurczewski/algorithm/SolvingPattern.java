@@ -31,7 +31,7 @@ public class SolvingPattern implements Algorithm {
 
                 List<Integer> actualRow = new ArrayList<>();
                 for (int x = 0; x < maxFloor; x++) {
-                    actualRow.add(grid.solution(coord.offset(x, y)).orElse(0));
+                    actualRow.add(grid.get(coord.offset(x, y)).orElse(0));
                 }
 
                 List<Integer> solvedRow = trySolve(clue, actualRow);
@@ -44,8 +44,6 @@ public class SolvingPattern implements Algorithm {
             System.out.println();
             coord = coord.rotateLeft();
         }
-
-        grid.print();
     }
 
     List<Integer> trySolve(int givenClue, List<Integer> givenRow) { // TODO hide?
