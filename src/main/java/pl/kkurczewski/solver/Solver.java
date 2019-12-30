@@ -2,8 +2,6 @@ package pl.kkurczewski.solver;
 
 import pl.kkurczewski.grid.Grid;
 
-import java.util.List;
-
 public class Solver {
 
     protected final Grid grid;
@@ -25,8 +23,8 @@ public class Solver {
         this.clues = solver.clues;
     }
 
-    public int[][] solve(List<Algorithm> algorithms) {
-        algorithms.forEach(algorithm -> algorithm.solve(grid, clues));
+    public int[][] solve(Algorithm algorithm) {
+        algorithm.solve(grid, clues);
 
         return grid.solution();
     }
