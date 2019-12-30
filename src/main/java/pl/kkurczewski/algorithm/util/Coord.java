@@ -1,13 +1,11 @@
 package pl.kkurczewski.algorithm.util;
 
-import static java.lang.String.format;
-
 public class Coord {
 
     private final int x;
     private final int y;
 
-    public Coord(int x, int y) {
+    Coord(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -20,12 +18,7 @@ public class Coord {
         return y;
     }
 
-    public Coord offset(int dx, int dy) {
-        return new Coord(x + dx, y + dy);
-    }
-
-    @Override
-    public String toString() {
-        return format("(%d,%d)", x(), y());
+    int[] toArray() {
+        return new int[]{x, y};
     }
 }

@@ -50,9 +50,8 @@ public class Grid {
     }
 
     public boolean exclude(int x, int y, int givenFloor) {
-        final Cell cell = cells[x][y];
         try {
-            List<Integer> result = cell.exclude(givenFloor);
+            List<Integer> result = cells[x][y].exclude(givenFloor);
             if (result.isEmpty()) return false;
             else if (result.size() == 1) solve(x, y, result.get(0));
 

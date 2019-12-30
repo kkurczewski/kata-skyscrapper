@@ -1,6 +1,7 @@
 package pl.kkurczewski.algorithm;
 
 import pl.kkurczewski.algorithm.util.Coord;
+import pl.kkurczewski.algorithm.util.CoordLens;
 import pl.kkurczewski.grid.Grid;
 
 import java.util.ArrayList;
@@ -28,17 +29,19 @@ public class SolvingPatternStep implements PatternStep {
     }
 
     @Override
-    public void apply(Grid grid, Coord coord, int clue, int y) {
+    public void apply(Grid grid, CoordLens lens, int clue, int y) {
         List<Integer> actualRow = new ArrayList<>();
         for (int x = 0; x < maxFloor; x++) {
-            actualRow.add(grid.get(coord.offset(x, y).x(), coord.offset(x, y).y()));
+            Coord coord = lens.coord(x, y);
+            actualRow.add(grid.get(coord.x(), coord.y()));
         }
 
         List<Integer> solvedRow = matches(clue, actualRow) ? solution : new ArrayList<>();
         for (int x = 0; x < solvedRow.size(); x++) {
             final int solution = solvedRow.get(x);
-            if (solution > 0) grid.solve(coord.offset(x, y).x(), coord.offset(x,y).y(), solution);
-            else if (solution < 0) grid.exclude(coord.offset(x, y).x(), coord.offset(x, y).y(), Math.abs(solution));
+            Coord coord = lens.coord(x, y);
+            if (solution > 0) grid.solve(coord.x(), coord.y(), solution);
+            else if (solution < 0) grid.exclude(coord.x(), coord.y(), Math.abs(solution));
         }
     }
 

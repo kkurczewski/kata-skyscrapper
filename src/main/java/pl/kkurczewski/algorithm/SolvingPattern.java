@@ -1,6 +1,6 @@
 package pl.kkurczewski.algorithm;
 
-import pl.kkurczewski.algorithm.util.RotatingCoord;
+import pl.kkurczewski.algorithm.util.CoordLens;
 import pl.kkurczewski.grid.Grid;
 import pl.kkurczewski.solver.Algorithm;
 
@@ -17,7 +17,7 @@ public class SolvingPattern implements Algorithm {
     @Override
     public void solve(Grid grid, int[][] clues) {
         final int maxFloor = clues.length;
-        RotatingCoord coord = new RotatingCoord(0, 0, maxFloor);
+        CoordLens lens = new CoordLens(maxFloor - 1);
         for (int[] clueRow : clues) {
             for (int y = 0; y < maxFloor; y++) {
                 final int clue = clueRow[y];
@@ -25,10 +25,10 @@ public class SolvingPattern implements Algorithm {
                 if (clue == 0) continue;
 
                 for (PatternStep step : steps) {
-                    step.apply(grid, coord, clue, y);
+                    step.apply(grid, lens, clue, y);
                 }
             }
-            coord = coord.rotateLeft();
+            lens.rotateLeft();
         }
     }
 }
