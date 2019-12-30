@@ -4,7 +4,6 @@ import pl.kkurczewski.grid.exception.core.ExcludeFailedException;
 import pl.kkurczewski.grid.exception.core.SolveFailedException;
 
 import java.util.List;
-import java.util.Optional;
 
 public class Grid {
 
@@ -30,45 +29,41 @@ public class Grid {
         Grid grid = new Grid(values.length);
         for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values.length; j++) {
-                if (values[i][j] != 0) grid.solve(new Coord(i, j), values[i][j]);
+                if (values[i][j] != 0) grid.solve(i, j, values[i][j]);
             }
         }
         return grid;
     }
 
-    public boolean solve(Coord coord, int givenFloor) {
-        final int x = coord.x();
-        final int y = coord.y();
+    public boolean solve(int x, int y, int givenFloor) {
         try {
             if (!cells[x][y].solve(givenFloor)) return false;
 
             for (int i = 0; i < maxFloor; i++) {
-                if (i != x) exclude(new Coord(i, y), givenFloor);
-                if (i != y) exclude(new Coord(x, i), givenFloor);
+                if (i != x) exclude(i, y, givenFloor);
+                if (i != y) exclude(x, i, givenFloor);
             }
         } catch (Exception ex) {
-            throw new SolveFailedException(coord, givenFloor, ex);
+            throw new SolveFailedException(x, y, givenFloor, ex);
         }
         return true;
     }
 
-    public boolean exclude(Coord coord, int givenFloor) {
-        final int x = coord.x();
-        final int y = coord.y();
+    public boolean exclude(int x, int y, int givenFloor) {
         final Cell cell = cells[x][y];
         try {
             List<Integer> result = cell.exclude(givenFloor);
             if (result.isEmpty()) return false;
-            else if (result.size() == 1) solve(coord, result.get(0));
+            else if (result.size() == 1) solve(x, y, result.get(0));
 
             for (int floor = 1; floor <= maxFloor; floor++) {
                 for (int i = 0; i < maxFloor; i++) {
-                    if (scanForSolution(x, i, floor)) solve(new Coord(x, i), floor);
-                    if (scanForSolution(i, y, floor)) solve(new Coord(i, y), floor);
+                    if (scanForSolution(x, i, floor)) solve(x, i, floor);
+                    if (scanForSolution(i, y, floor)) solve(i, y, floor);
                 }
             }
         } catch (Exception ex) {
-            throw new ExcludeFailedException(coord, givenFloor, ex);
+            throw new ExcludeFailedException(x, y, givenFloor, ex);
         }
         return true;
     }
@@ -77,18 +72,14 @@ public class Grid {
         int[][] solution = new int[maxFloor][maxFloor];
         for (int i = 0; i < maxFloor; i++) {
             for (int j = 0; j < maxFloor; j++) {
-                solution[i][j] = cells[i][j].solution();
+                solution[i][j] = get(i, j);
             }
         }
         return solution;
     }
 
-    public int get(Coord coord) {
-        return cells[coord.x()][coord.y()].solution();
-    }
-
-    public boolean hasCandidate(Coord coord, int candidate) {
-        return cells[coord.x()][coord.y()].hasCandidate(candidate);
+    public int get(int x, int y) {
+        return cells[x][y].solution();
     }
 
     private boolean scanForSolution(int x, int y, int floorsNumber) {

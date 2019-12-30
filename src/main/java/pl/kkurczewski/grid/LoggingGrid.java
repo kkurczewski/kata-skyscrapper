@@ -14,19 +14,19 @@ public class LoggingGrid extends Grid {
     }
 
     @Override
-    public boolean solve(Coord coord, int givenFloor) {
-        boolean changed = super.solve(coord, givenFloor);
+    public boolean solve(int x, int y, int givenFloor) {
+        boolean changed = super.solve(x, y, givenFloor);
         if (changed) {
-            logger.accept(format("%s == %s", coord, givenFloor));
+            logger.accept(format("(%s,%s) == %s", x, y, givenFloor));
         }
         return changed;
     }
 
     @Override
-    public boolean exclude(Coord coord, int floor) {
-        boolean changed = super.exclude(coord, floor);
+    public boolean exclude(int x, int y, int givenFloor) {
+        boolean changed = super.exclude(x, y, givenFloor);
         if (changed) {
-            logger.accept(format("%s != %s", coord, floor));
+            logger.accept(format("(%s,%s) != %s", x, y, givenFloor));
         }
         return changed;
     }

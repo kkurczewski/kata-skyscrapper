@@ -1,7 +1,5 @@
 package pl.kkurczewski.algorithm.util;
 
-import pl.kkurczewski.grid.Coord;
-
 public class RotatingCoord extends Coord {
 
     private static final int MAX_ROTATIONS = 4;

@@ -1,4 +1,4 @@
-package pl.kkurczewski.grid;
+package pl.kkurczewski.algorithm.util;
 
 import static java.lang.String.format;
 

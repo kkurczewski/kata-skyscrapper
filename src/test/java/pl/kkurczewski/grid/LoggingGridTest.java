@@ -16,7 +16,7 @@ public class LoggingGridTest {
         List<String> logs = new ArrayList<>();
         Grid grid = new LoggingGrid(emptyGrid, logs::add);
 
-        grid.solve(new Coord(1, 2), 1);
+        grid.solve(1, 2, 1);
 
         assertThat(logs).containsOnly(
                 "(1,2) == 1",
@@ -34,7 +34,7 @@ public class LoggingGridTest {
         List<String> logs = new ArrayList<>();
         Grid grid = new LoggingGrid(emptyGrid, logs::add);
 
-        grid.exclude(new Coord(1, 2), 1);
+        grid.exclude(1, 2, 1);
 
         assertThat(logs).containsOnly("(1,2) != 1");
     }
@@ -44,9 +44,9 @@ public class LoggingGridTest {
         List<String> logs = new ArrayList<>();
         Grid grid = new LoggingGrid(emptyGrid, logs::add);
 
-        grid.solve(new Coord(0, 0), 1);
-        grid.solve(new Coord(0, 1), 4);
-        grid.solve(new Coord(0, 2), 2);
+        grid.solve(0, 0, 1);
+        grid.solve(0, 1, 4);
+        grid.solve(0, 2, 2);
 
         assertThat(logs).contains("(0,3) == 3");
     }

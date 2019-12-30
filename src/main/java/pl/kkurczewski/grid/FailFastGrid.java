@@ -13,19 +13,19 @@ public class FailFastGrid extends Grid {
     }
 
     @Override
-    public boolean solve(Coord coord, int givenFloor) {
-        int correctAnswer = solution[coord.x()][coord.y()];
+    public boolean solve( int x, int y, int givenFloor) {
+        int correctAnswer = solution[x][y];
         if (correctAnswer != givenFloor) {
-            throw new InvalidSolutionException(correctAnswer, givenFloor, coord);
+            throw new InvalidSolutionException(x, y, correctAnswer, givenFloor);
         }
-        return super.solve(coord, givenFloor);
+        return super.solve(x, y, givenFloor);
     }
 
     @Override
-    public boolean exclude(Coord coord, int givenFloor) {
-        if (solution[coord.x()][coord.y()] == givenFloor) {
-            throw new InvalidExclusionException(givenFloor, coord);
+    public boolean exclude( int x, int y, int givenFloor) {
+        if (solution[x][y] == givenFloor) {
+            throw new InvalidExclusionException(x, y, givenFloor);
         }
-        return super.exclude(coord, givenFloor);
+        return super.exclude(x, y, givenFloor);
     }
 }
