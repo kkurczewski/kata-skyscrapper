@@ -23,6 +23,10 @@ public class SolvingPatternStep implements PatternStep {
         this.maxFloor = solution.size();
     }
 
+    public static SolvingPatternStep step(int clue, List<Integer> expectedRow, List<Integer> solution) {
+        return new SolvingPatternStep(clue, expectedRow, solution);
+    }
+
     @Override
     public void apply(Grid grid, Coord coord, int clue, int y) {
         List<Integer> actualRow = new ArrayList<>();
