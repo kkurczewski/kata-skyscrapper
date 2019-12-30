@@ -31,7 +31,7 @@ public class SolvingPattern implements Algorithm {
 
                 List<Integer> actualRow = new ArrayList<>();
                 for (int x = 0; x < maxFloor; x++) {
-                    actualRow.add(grid.get(coord.offset(x, y)).orElse(0));
+                    actualRow.add(grid.get(coord.offset(x, y)));
                 }
 
                 List<Integer> solvedRow = trySolve(clue, actualRow);

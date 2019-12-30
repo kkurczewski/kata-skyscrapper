@@ -2,7 +2,7 @@ package pl.kkurczewski;
 
 import pl.kkurczewski.algorithm.SolvingPattern;
 import pl.kkurczewski.grid.Grid;
-import pl.kkurczewski.grid.LoggingGridMarker;
+import pl.kkurczewski.grid.LoggingGrid;
 import pl.kkurczewski.solver.Solver;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class SkyScrapers {
     static int[][] solvePuzzle(int[] clues) {
         int maxFloor = (int) Math.sqrt(clues.length);
         List<String> log = new ArrayList<>();
-        LoggingGridMarker loggingGrid = new LoggingGridMarker(new Grid(maxFloor), log::add);
+        LoggingGrid loggingGrid = new LoggingGrid(new Grid(maxFloor), log::add);
         Solver solver = new Solver(loggingGrid, clues);
 
         int[][] solution = solver.solve(List.of(

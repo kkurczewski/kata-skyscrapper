@@ -3,6 +3,7 @@ package pl.kkurczewski.grid;
 import pl.kkurczewski.grid.exception.core.ExcludeFailedException;
 import pl.kkurczewski.grid.exception.core.SolveFailedException;
 
+import java.util.List;
 import java.util.Optional;
 
 public class Grid {
@@ -51,12 +52,14 @@ public class Grid {
         return true;
     }
 
-    public boolean exclude(Coord coord, int floorsNumber) {
+    public boolean exclude(Coord coord, int givenFloor) {
         final int x = coord.x();
         final int y = coord.y();
         final Cell cell = cells[x][y];
         try {
-            if (!cell.exclude(floorsNumber)) return false;
+            List<Integer> result = cell.exclude(givenFloor);
+            if (result.isEmpty()) return false;
+            else if (result.size() == 1) solve(coord, result.get(0));
 
             for (int floor = 1; floor <= maxFloor; floor++) {
                 for (int i = 0; i < maxFloor; i++) {
@@ -65,7 +68,7 @@ public class Grid {
                 }
             }
         } catch (Exception ex) {
-            throw new ExcludeFailedException(coord, floorsNumber, ex);
+            throw new ExcludeFailedException(coord, givenFloor, ex);
         }
         return true;
     }
@@ -74,13 +77,13 @@ public class Grid {
         int[][] solution = new int[maxFloor][maxFloor];
         for (int i = 0; i < maxFloor; i++) {
             for (int j = 0; j < maxFloor; j++) {
-                solution[i][j] = cells[i][j].solution().orElse(0);
+                solution[i][j] = cells[i][j].solution();
             }
         }
         return solution;
     }
 
-    public Optional<Integer> get(Coord coord) {
+    public int get(Coord coord) {
         return cells[coord.x()][coord.y()].solution();
     }
 

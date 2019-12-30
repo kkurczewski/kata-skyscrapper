@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Solver {
 
-    private final Grid grid;
-    private final int[][] clues;
-    private final int maxFloor;
+    protected final Grid grid;
+    protected final int[][] clues;
+    protected final int maxFloor;
 
     public Solver(Grid grid, int[] clues) {
         this.maxFloor = (int) Math.sqrt(clues.length);
@@ -19,46 +19,15 @@ public class Solver {
         }
     }
 
-    public int[][] solve(List<Algorithm> algorithms) {
-        algorithms.forEach(algorithm -> {
-            algorithm.solve(grid, clues);
-            System.out.println(this.toString());
-        });
-
-        return grid.solution();
+    public Solver(Solver solver) {
+        this.maxFloor = solver.maxFloor;
+        this.grid = solver.grid;
+        this.clues = solver.clues;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
+    public int[][] solve(List<Algorithm> algorithms) {
+        algorithms.forEach(algorithm -> algorithm.solve(grid, clues));
 
-        // print top clues
-        builder.append(" |");
-        for (int i = 0; i < maxFloor; i++) {
-            builder.append(clues[0][i]);
-        }
-        builder.append("| ").append(System.lineSeparator())
-                .append("-+----+-").append(System.lineSeparator());
-
-        // print solution and sides clues
-        final int[][] solution = grid.solution();
-        for (int i = 0; i < maxFloor; i++) {
-            builder.append(clues[3][maxFloor - i - 1]).append("|");
-            for (int j = 0; j < maxFloor; j++) {
-                final int value = solution[i][j];
-                builder.append(value == 0 ? "?" : value);
-            }
-            builder.append("|").append(clues[1][i]);
-            builder.append(System.lineSeparator());
-        }
-
-        // print bottom clues
-        builder.append("-+----+-").append(System.lineSeparator()).append(" |");
-        for (int i = 0; i < maxFloor; i++) {
-            builder.append(clues[2][maxFloor - i - 1]);
-        }
-        builder.append("| ").append(System.lineSeparator());
-
-        return builder.toString();
+        return grid.solution();
     }
 }

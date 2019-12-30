@@ -4,11 +4,11 @@ import java.util.function.Consumer;
 
 import static java.lang.String.format;
 
-public class LoggingGridMarker extends Grid {
+public class LoggingGrid extends Grid {
 
     private final Consumer<String> logger;
 
-    public LoggingGridMarker(Grid rootGrid, Consumer<String> logger) {
+    public LoggingGrid(Grid rootGrid, Consumer<String> logger) {
         super(rootGrid);
         this.logger = logger;
     }

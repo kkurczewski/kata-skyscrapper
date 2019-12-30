@@ -1,10 +1,10 @@
 package pl.kkurczewski.algorithm;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import pl.kkurczewski.grid.FailFastGrid;
 import pl.kkurczewski.solver.Algorithm;
 
-public abstract class AlgorithmSmokeTest {
+public abstract class SmokeTestTemplate {
 
     protected final int[][] clues = {
             {2, 2, 1, 3},

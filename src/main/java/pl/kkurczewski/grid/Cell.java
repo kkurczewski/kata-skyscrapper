@@ -3,36 +3,38 @@ package pl.kkurczewski.grid;
 import pl.kkurczewski.grid.exception.cell.ExclusionConflictException;
 import pl.kkurczewski.grid.exception.cell.SolveConflictException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Cell {
 
     private final List<Integer> opts;
+    private int solution = 0;
 
-    public Cell(int maxFloors) {
+    Cell(int maxFloors) {
         opts = IntStream.rangeClosed(1, maxFloors)
                 .boxed()
                 .collect(Collectors.toList());
     }
 
-    public boolean exclude(int givenFloor) {
-        if (solution().isPresent()) {
-            int solution = solution().get();
+    /**
+     * @return remaining candidates or empty list if no change happened
+     */
+    List<Integer> exclude(int givenFloor) {
+        if (solved()) {
             if (givenFloor == solution) {
                 throw new ExclusionConflictException(solution);
             }
-            return false;
+            return new ArrayList<>();
         }
 
-        return opts.remove(Integer.valueOf(givenFloor));
+        return opts.remove(Integer.valueOf(givenFloor)) ? List.copyOf(opts) : new ArrayList<>();
     }
 
     public boolean solve(int givenFloor) {
-        if (solution().isPresent()) {
-            int solution = solution().get();
+        if (solved()) {
             if (givenFloor != solution) {
                 throw new SolveConflictException(givenFloor, solution);
             }
@@ -40,24 +42,27 @@ public class Cell {
         }
 
         opts.clear();
-        opts.add(givenFloor);
+        solution = givenFloor;
 
         return true;
     }
 
-    public Optional<Integer> solution() {
-        return solved() ? Optional.of(opts.get(0)) : Optional.empty();
+    /**
+     * @return solution or zero if not solved yet
+     */
+    public int solution() {
+        return solution;
     }
 
-    public boolean hasCandidate(int floor) {
+    boolean hasCandidate(int floor) {
         return !solved() && opts.contains(floor);
     }
 
-    public boolean hasSolution(int floor) {
-        return solution().filter(it -> it == floor).isPresent();
+    boolean hasSolution(int floor) {
+        return solution == floor;
     }
 
     private boolean solved() {
-        return opts.size() == 1;
+        return opts.isEmpty();
     }
 }

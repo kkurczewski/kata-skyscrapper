@@ -1,10 +1,10 @@
 package pl.kkurczewski;
 
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.NoSuchElementException;
-
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
 
@@ -40,11 +40,11 @@ public class SolutionTest {
 
     @Test
     public void testSolvePuzzle1() {
-        assertEquals(SkyScrapers.solvePuzzle(clues[0]), outcomes[0]);
+        assertThat(SkyScrapers.solvePuzzle(clues[0])).containsExactly(outcomes[0]);
     }
 
     @Test
     public void testSolvePuzzle2() {
-        assertEquals(SkyScrapers.solvePuzzle(clues[1]), outcomes[1]);
+        assertThat(SkyScrapers.solvePuzzle(clues[1])).containsExactly(outcomes[1]);
     }
 }
