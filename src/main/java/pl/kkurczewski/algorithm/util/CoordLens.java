@@ -1,6 +1,6 @@
 package pl.kkurczewski.algorithm.util;
 
-public class CoordLens {
+public class CoordLens implements ImmutableCoordLens {
 
     private static final int MAX_ROTATIONS = 4;
 
@@ -13,6 +13,7 @@ public class CoordLens {
         this.rotations = 0;
     }
 
+    @Override
     public Coord coord(int x, int y) {
         int[] coord = new int[]{x, y};
         for (int i = 0; i < rotations; i++) {

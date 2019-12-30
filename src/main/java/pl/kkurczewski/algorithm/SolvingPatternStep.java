@@ -1,7 +1,7 @@
 package pl.kkurczewski.algorithm;
 
 import pl.kkurczewski.algorithm.util.Coord;
-import pl.kkurczewski.algorithm.util.CoordLens;
+import pl.kkurczewski.algorithm.util.ImmutableCoordLens;
 import pl.kkurczewski.grid.Grid;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class SolvingPatternStep implements PatternStep {
     }
 
     @Override
-    public void apply(Grid grid, CoordLens lens, int clue, int y) {
+    public void apply(Grid grid, ImmutableCoordLens lens, int clue, int y) {
         List<Integer> actualRow = new ArrayList<>();
         for (int x = 0; x < maxFloor; x++) {
             Coord coord = lens.coord(x, y);
